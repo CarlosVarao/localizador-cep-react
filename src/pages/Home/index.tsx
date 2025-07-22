@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "./App.css";
+import "./styles.css";
 
 export default function App() {
   // Estado único para dados do CEP
@@ -23,8 +23,13 @@ export default function App() {
     if (numCep === "") {
       setErroAnimar(true)
       setErroCep("Campo já está limpo.");
+      setTimeout(() => {
+        setErroAnimar(!true)
+      }, 2200);
     } else if (numCep.length > 0) {
-      setErroCep(" ")
+      setTimeout(() => {
+        setErroAnimar(!true)
+      }, 230);
     }
     setDadosCep({
       uf: "xxxx - xxxx",
