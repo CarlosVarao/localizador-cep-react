@@ -1,0 +1,148 @@
+import { useState } from "react";
+import axios from "axios";
+import "./App.css";
+
+export default function App() {
+  // Estado único para dados do CEP
+  const [dadosCep, setDadosCep] = useState({
+    uf: "xxxx - xxxx",
+    ddd: "xxxx - xxxx",
+    localidade: "xxxx - xxxx",
+    bairro: "xxxx - xxxx",
+    logradouro: "xxxx - xxxx",
+    cep: "xxxx - xxxx",
+    regiao: "xxxx - xxxx",
+  });
+
+  const [numCep, setNumCep] = useState("");
+  const [erroCep, setErroCep] = useState(" ");
+
+  const [erroAnimar, setErroAnimar] = useState(false)
+
+  const limparDados = () => {
+    if (numCep === "") {
+      setErroAnimar(true)
+      setErroCep("Campo já está limpo.");
+    } else if (numCep.length > 0) {
+      setErroCep(" ")
+    }
+    setDadosCep({
+      uf: "xxxx - xxxx",
+      ddd: "xxxx - xxxx",
+      localidade: "xxxx - xxxx",
+      bairro: "xxxx - xxxx",
+      logradouro: "xxxx - xxxx",
+      cep: "xxxx - xxxx",
+      regiao: "xxxx - xxxx",
+    });
+    setNumCep("");
+  };
+
+  const buscarDadosApi = async () => {
+    const cepLimpo = numCep.replace(/\D/g, "");
+
+    if (!/^\d{8}$/.test(cepLimpo)) {
+      setErroAnimar(true)
+      setErroCep("Por favor, digite um CEP válido com 8 números.");
+      return;
+    }
+
+    try {
+      const urlApi = `https://viacep.com.br/ws/${cepLimpo}/json/`;
+      const resposta = await axios.get(urlApi);
+
+      if (resposta.data.erro) {
+        setErroAnimar(true)
+        setErroCep("CEP não encontrado.");
+        setDadosCep({
+          uf: "xxxx - xxxx",
+          ddd: "xxxx - xxxx",
+          localidade: "xxxx - xxxx",
+          bairro: "xxxx - xxxx",
+          logradouro: "xxxx - xxxx",
+          cep: "xxxx - xxxx",
+          regiao: "xxxx - xxxx",
+        });
+      } else {
+        setErroAnimar(true)
+        setDadosCep({
+          uf: resposta.data.uf || "N/A",
+          ddd: resposta.data.ddd || "N/A",
+          localidade: resposta.data.localidade || "N/A",
+          bairro: resposta.data.bairro || "N/A",
+          logradouro: resposta.data.logradouro || "N/A",
+          cep: resposta.data.cep || "N/A",
+          regiao: resposta.data.bairro || "N/A",
+        });
+        setErroCep("CEP ENCONTRADO")
+      }
+    } catch (error) {
+      setErroAnimar(true)
+      setErroCep("Erro ao buscar o CEP. Tente novamente.");
+      setDadosCep({
+        uf: "xxxx - xxxx",
+        ddd: "xxxx - xxxx",
+        localidade: "xxxx - xxxx",
+        bairro: "xxxx - xxxx",
+        logradouro: "xxxx - xxxx",
+        cep: "xxxx - xxxx",
+        regiao: "xxxx - xxxx",
+      });
+    }
+  };
+
+  return (
+    <div className="cep-container">
+      <h2>Localizador CEP</h2>
+
+      <div className="form-cep">
+        <input
+          type="text"
+          className="input-cep"
+          placeholder="Digite o CEP ( apenas números )"
+          maxLength={9}
+          value={numCep}
+          onChange={(e) => {
+            const rawValue = e.target.value.replace(/\D/g, "");
+            const maskedValue = rawValue.replace(/^(\d{5})(\d)/, "$1-$2");
+            setNumCep(maskedValue);
+          }}
+          aria-label="Campo para digitar CEP"
+        />
+        <button
+          type="button"
+          className="botao-buscar"
+          onClick={buscarDadosApi}
+        >
+          Buscar
+        </button>
+        <button type="button" className="botao-limpar" onClick={limparDados}>
+          Limpar
+        </button>
+      </div>
+
+      {erroCep && <p className={`erro ${erroAnimar ? "erroAnimar" : "resetErroAnimar"}`} role="alert">{erroCep}</p>}
+
+      <div className="resultado-cep" aria-live="polite">
+        <p>
+          uf: <span>{dadosCep.uf}</span>
+        </p>
+        <p>
+          ddd: <span>{dadosCep.ddd}</span>
+        </p>
+        <p>
+          localidade: <span>{dadosCep.localidade}</span>
+        </p>
+        <p>
+          bairro: <span>{dadosCep.bairro}</span>
+        </p>
+        <p>
+          logradouro: <span>{dadosCep.logradouro}</span>
+        </p>
+        <p>
+          cep: <span>{dadosCep.cep}</span>
+        </p>
+      </div>
+    </div >
+  );
+}
