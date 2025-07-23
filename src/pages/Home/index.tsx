@@ -25,11 +25,11 @@ export default function App() {
       setErroCep("Campo já está limpo.");
       setTimeout(() => {
         setErroAnimar(!true)
-      }, 2200);
+      }, 2300);
     } else if (numCep.length > 0) {
       setTimeout(() => {
         setErroAnimar(!true)
-      }, 230);
+      }, 240);
     }
     setDadosCep({
       uf: "xxxx - xxxx",
