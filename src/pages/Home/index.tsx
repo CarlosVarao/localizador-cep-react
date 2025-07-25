@@ -3,8 +3,8 @@ import { ConsumoApi } from "../../services/consumoApi"
 import "./styles.css";
 
 export default function App() {
-  // Estado único para dados do CEP
-  const [dadosCep, setDadosCep] = useState({
+
+  const padraoInfo = {
     uf: "xxxx - xxxx",
     ddd: "xxxx - xxxx",
     localidade: "xxxx - xxxx",
@@ -12,11 +12,10 @@ export default function App() {
     logradouro: "xxxx - xxxx",
     cep: "xxxx - xxxx",
     regiao: "xxxx - xxxx",
-  });
-
+  }
+  const [dadosCep, setDadosCep] = useState(padraoInfo);
   const [numCep, setNumCep] = useState("");
   const [erroCep, setErroCep] = useState(" ");
-
   const [erroAnimar, setErroAnimar] = useState(false)
 
   const limparDados = () => {
@@ -31,15 +30,7 @@ export default function App() {
         setErroAnimar(!true)
       }, 240);
     }
-    setDadosCep({
-      uf: "xxxx - xxxx",
-      ddd: "xxxx - xxxx",
-      localidade: "xxxx - xxxx",
-      bairro: "xxxx - xxxx",
-      logradouro: "xxxx - xxxx",
-      cep: "xxxx - xxxx",
-      regiao: "xxxx - xxxx",
-    });
+    setDadosCep(padraoInfo);
     setNumCep("");
   };
 
@@ -53,7 +44,7 @@ export default function App() {
     }
 
     const resposta = await ConsumoApi(cepLimpo)
-    console.log(resposta)
+
     try {
 
       if (resposta.erro) {
