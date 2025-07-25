@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { ConsumoApi } from "../../services/consumoApi"
 import "./styles.css";
 
 export default function App() {
@@ -52,47 +52,24 @@ export default function App() {
       return;
     }
 
+    const resposta = await ConsumoApi(cepLimpo)
+    console.log(resposta)
     try {
-      const urlApi = `https://viacep.com.br/ws/${cepLimpo}/json/`;
-      const resposta = await axios.get(urlApi);
 
-      if (resposta.data.erro) {
+      if (resposta.erro) {
         setErroAnimar(true)
         setErroCep("CEP não encontrado.");
-        setDadosCep({
-          uf: "xxxx - xxxx",
-          ddd: "xxxx - xxxx",
-          localidade: "xxxx - xxxx",
-          bairro: "xxxx - xxxx",
-          logradouro: "xxxx - xxxx",
-          cep: "xxxx - xxxx",
-          regiao: "xxxx - xxxx",
-        });
+        setDadosCep(resposta)
+
       } else {
         setErroAnimar(true)
-        setDadosCep({
-          uf: resposta.data.uf || "N/A",
-          ddd: resposta.data.ddd || "N/A",
-          localidade: resposta.data.localidade || "N/A",
-          bairro: resposta.data.bairro || "N/A",
-          logradouro: resposta.data.logradouro || "N/A",
-          cep: resposta.data.cep || "N/A",
-          regiao: resposta.data.bairro || "N/A",
-        });
         setErroCep("CEP ENCONTRADO")
+        setDadosCep(resposta)
       }
     } catch (error) {
       setErroAnimar(true)
       setErroCep("Erro ao buscar o CEP. Tente novamente.");
-      setDadosCep({
-        uf: "xxxx - xxxx",
-        ddd: "xxxx - xxxx",
-        localidade: "xxxx - xxxx",
-        bairro: "xxxx - xxxx",
-        logradouro: "xxxx - xxxx",
-        cep: "xxxx - xxxx",
-        regiao: "xxxx - xxxx",
-      });
+      setDadosCep(resposta)
     }
   };
 
