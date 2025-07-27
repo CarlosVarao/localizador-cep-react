@@ -39,6 +39,7 @@ export default function App() {
   const buscarDadosApi = async () => {
     const cepLimpo = numCep.replace(/\D/g, "");
     setErroCep(" ")
+    setDadosCep(padraoInfo);
 
     if (!/^\d{8}$/.test(cepLimpo)) {
       setErroAnimar(true)
