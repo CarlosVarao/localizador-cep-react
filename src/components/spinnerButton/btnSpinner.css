@@ -1,0 +1,23 @@
+/* src/components/Spinner.css */
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #8a3ffc; /* cor azul */
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

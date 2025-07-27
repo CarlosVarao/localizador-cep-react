@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ConsumoApi } from "../../services/consumoApi"
+import BtnSpinnerComponents from '../../components/spinnerButton/btnSpinner'
 import "./styles.css";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const [numCep, setNumCep] = useState("");
   const [erroCep, setErroCep] = useState(" ");
   const [erroAnimar, setErroAnimar] = useState(false)
+  const [btnspinner, setbtnspinner] = useState(false)
 
   const limparDados = () => {
     if (numCep === "") {
@@ -36,6 +38,7 @@ export default function App() {
 
   const buscarDadosApi = async () => {
     const cepLimpo = numCep.replace(/\D/g, "");
+    setErroCep(" ")
 
     if (!/^\d{8}$/.test(cepLimpo)) {
       setErroAnimar(true)
@@ -43,25 +46,29 @@ export default function App() {
       return;
     }
 
+    setbtnspinner(true)
+
     const resposta = await ConsumoApi(cepLimpo)
 
-    try {
+    setTimeout(() => {
+      setbtnspinner(false)
+      try {
+        if (resposta.erro) {
+          setErroAnimar(true)
+          setErroCep("CEP não encontrado.");
+          setDadosCep(resposta)
 
-      if (resposta.erro) {
+        } else {
+          setErroAnimar(true)
+          setErroCep("CEP ENCONTRADO")
+          setDadosCep(resposta)
+        }
+      } catch (error) {
         setErroAnimar(true)
-        setErroCep("CEP não encontrado.");
-        setDadosCep(resposta)
-
-      } else {
-        setErroAnimar(true)
-        setErroCep("CEP ENCONTRADO")
+        setErroCep("Erro ao buscar o CEP. Tente novamente.");
         setDadosCep(resposta)
       }
-    } catch (error) {
-      setErroAnimar(true)
-      setErroCep("Erro ao buscar o CEP. Tente novamente.");
-      setDadosCep(resposta)
-    }
+    }, 1000);
   };
 
   return (
@@ -87,7 +94,7 @@ export default function App() {
           className="botao-buscar"
           onClick={buscarDadosApi}
         >
-          Buscar
+          {btnspinner ? <BtnSpinnerComponents /> : "Buscar"}
         </button>
         <button type="button" className="botao-limpar" onClick={limparDados}>
           Limpar
@@ -95,6 +102,7 @@ export default function App() {
       </div>
 
       {erroCep && <p className={`erro ${erroAnimar ? "erroAnimar" : "resetErroAnimar"}`} role="alert">{erroCep}</p>}
+
 
       <div className="resultado-cep" aria-live="polite">
         <p>
