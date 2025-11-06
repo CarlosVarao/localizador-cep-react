@@ -18,49 +18,51 @@ Depois, siga estes passos:
 
    ```bash
    git clone https://github.com/seu-usuario/localizador-cep-react.git
-   ```
+Entre na pasta do projeto:
 
-2. **Entre na pasta do projeto:**
+bash
+Copiar código
+cd localizador-cep-react
+Instale as dependências:
 
-   ```bash
-   cd localizador-cep-react
-   ```
+bash
+Copiar código
+npm install
+Inicie o servidor de desenvolvimento:
 
-3. **Instale as dependências:**
+bash
+Copiar código
+npm run dev
+💡 Dica: Para acessar a aplicação via outros dispositivos na mesma rede (celular, tablet), rode o servidor expondo o host:
 
-   ```bash
-   npm install
-   ```
+bash
+Copiar código
+npm run dev -- --host
+Ou configure sua ferramenta para permitir acesso via IP local.
 
-4. **Inicie o servidor de desenvolvimento:**
+Abra seu navegador e acesse:
 
-   ```bash
-   npm run dev
-   ```
-
-> 💡 *Dica:* Para acessar a aplicação via outros dispositivos na mesma rede (celular, tablet), rode o servidor expondo o host:  
->
-> ```bash
-> npm run dev -- --host
-> ```  
-> Ou configure sua ferramenta para permitir acesso via IP local.
-
-5. **Abra seu navegador e acesse:**
-
-```
+arduino
+Copiar código
 http://localhost:3000
-```
+Ou, se estiver acessando de outro dispositivo na mesma rede, substitua localhost pelo IP da sua máquina.
 
-Ou, se estiver acessando de outro dispositivo na mesma rede, substitua `localhost` pelo IP da sua máquina.
-
----
-
-## 📫 Contato
-
-📧 Email: carlosvarao.frontend@hotmail.com  
-🔗 LinkedIn: [linkedin.com/in/carlosvaraofrontend](https://www.linkedin.com/in/carlosvaraofrontend)  
-🐙 GitHub: [github.com/CarlosVarao](https://github.com/CarlosVarao)
-
----
+📫 Contato
+📧 Email: carlosvarao.frontend@hotmail.com
+🔗 LinkedIn: linkedin.com/in/carlosvaraofrontend
+🐙 GitHub: github.com/CarlosVarao
 
 ❤️ Feito com muito amor, React e dedicação!
+
+perl
+Copiar código
+
+Você pode **copiar e colar exatamente assim** no seu `README.md` do GitHub.  
+
+Se quiser, posso também te mostrar **como pegar esse README e gerar o Base64 pronto** para usar na API do GitHub, para já integrar no seu portfólio. Quer que eu faça?
+
+
+
+
+
+
